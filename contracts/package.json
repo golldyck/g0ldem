@@ -1,0 +1,17 @@
+{
+  "name": "@goldem/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:galileo": "hardhat run scripts/deploy.ts --network galileo",
+    "node": "hardhat node"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "5.0.2",
+    "dotenv": "^16.4.7",
+    "hardhat": "^2.22.17"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@goldem/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Node/TS backend — persona compile, inference proxy, AVS (Phase 1+)",
+  "main": "index.ts"
+}

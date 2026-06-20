@@ -1,0 +1,23 @@
+{
+  "name": "goldem",
+  "version": "0.1.0",
+  "private": true,
+  "description": "G0LDEM — Ownable AI Agents on 0G (INFT / ERC-7857). Forge golden minds.",
+  "workspaces": [
+    "contracts",
+    "packages/sdk",
+    "apps/web",
+    "apps/api"
+  ],
+  "scripts": {
+    "contracts:compile": "npm run compile -w contracts",
+    "contracts:deploy": "npm run deploy:galileo -w contracts",
+    "web:dev": "npm run dev -w apps/web"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "overrides": {
+    "axios": "^1.18.0"
+  }
+}

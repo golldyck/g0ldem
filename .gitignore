@@ -1,0 +1,29 @@
+# deps
+node_modules/
+.pnp.*
+.yarn/*
+
+# env / secrets — NEVER commit keys (SPEC §4.3)
+.env
+.env.*
+!.env.example
+
+# hardhat
+contracts/artifacts/
+contracts/cache/
+contracts/typechain-types/
+contracts/deployments/*.json
+
+# next
+apps/web/.next/
+apps/web/out/
+apps/web/.vercel/
+
+# misc
+.DS_Store
+*.log
+dist/
+build/
+
+# reference clone (kept locally for study, not part of our build)
+reference/
