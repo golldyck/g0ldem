@@ -7,6 +7,7 @@ import { parseEventLogs } from "viem";
 import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import type { Persona } from "@goldem/sdk/src/types";
+import { Anvil } from "../_components/Icons";
 
 const GOLD = "#C9920F";
 
@@ -171,8 +172,8 @@ export default function Train() {
           {!isConnected ? (
             <button onClick={() => connect({ connector: connectors[0] })} style={btn}>Connect wallet to forge</button>
           ) : (
-            <button onClick={forge} style={btn} disabled={!!busy}>
-              {busy === "switching" ? "Switch wallet to 0G Galileo…" : busy === "forging" ? "Encrypting shem → 0G Storage…" : busy === "minting" ? "Minting on 0G Chain…" : "🔨 Forge golem"}
+            <button onClick={forge} style={{ ...btn, display: "inline-flex", alignItems: "center", gap: 8 }} disabled={!!busy}>
+              {busy === "switching" ? "Switch wallet to 0G Galileo…" : busy === "forging" ? "Encrypting shem → 0G Storage…" : busy === "minting" ? "Minting on 0G Chain…" : <><Anvil size={17} /> Forge golem</>}
             </button>
           )}
           <p style={{ color: "#8b8576", fontSize: 12, marginTop: 10 }}>

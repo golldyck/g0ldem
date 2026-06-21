@@ -92,7 +92,7 @@ section { position: relative; z-index: 1; }
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .hero .lead { color: var(--ink-dim); font-size: clamp(16px, 2.2vw, 21px); max-width: 640px; margin: 24px auto 0; }
 .hero-cta { display: flex; gap: 14px; justify-content: center; margin-top: 34px; flex-wrap: wrap; }
-.scroll-cue { margin-top: 50px; color: var(--ink-faint); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; animation: floaty 2.6s ease-in-out infinite; }
+.scroll-cue { margin-top: 50px; color: var(--ink-faint); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; animation: floaty 2.6s ease-in-out infinite; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
 @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(7px);} }
 
 /* hero sigil halo */
@@ -111,7 +111,8 @@ section { position: relative; z-index: 1; }
 .marquee-track { display: inline-flex; gap: 40px; white-space: nowrap; animation: scroll-x 30s linear infinite; }
 .marquee-track span { font-family: var(--font-display), serif; font-size: 18px; letter-spacing: 3px;
   text-transform: uppercase; color: var(--ink-faint); }
-.marquee-track span b { color: var(--gold); }
+.marquee-track span { display: inline-flex; align-items: center; gap: 10px; }
+.marquee-track span b { color: var(--gold); display: inline-flex; }
 @keyframes scroll-x { to { transform: translateX(-50%); } }
 
 /* ============ stats ============ */
@@ -136,7 +137,7 @@ section { position: relative; z-index: 1; }
 .pillar:hover { border-color: rgba(201,146,15,.5); transform: translateY(-4px); }
 .pillar:hover::after { opacity: 1; }
 .pillar .ic { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 12px;
-  background: rgba(201,146,15,.1); border: 1px solid rgba(201,146,15,.25); font-size: 22px; }
+  background: rgba(201,146,15,.1); border: 1px solid rgba(201,146,15,.25); color: var(--gold-bright); }
 .pillar h3 { margin: 16px 0 8px; font-size: 19px; }
 .pillar p { margin: 0; color: var(--ink-dim); font-size: 14.5px; }
 
@@ -147,7 +148,7 @@ section { position: relative; z-index: 1; }
 .step .w { font-family: var(--font-display), serif; font-size: 22px; margin: 10px 0 2px; }
 .step .t { color: var(--ink-faint); font-size: 12px; }
 .step p { color: var(--ink-dim); font-size: 13.5px; margin: 12px 0 0; }
-.step .arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 18px; z-index: 2; }
+.step .arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--gold); z-index: 2; display: inline-flex; }
 
 /* ============ showcase (card + props) ============ */
 .showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 48px; }
@@ -168,7 +169,7 @@ section { position: relative; z-index: 1; }
 .feat-list { display: flex; flex-direction: column; gap: 22px; }
 .feat { display: flex; gap: 16px; }
 .feat .fi { flex-shrink: 0; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px;
-  background: rgba(201,146,15,.1); border: 1px solid rgba(201,146,15,.25); font-size: 20px; }
+  background: rgba(201,146,15,.1); border: 1px solid rgba(201,146,15,.25); color: var(--gold-bright); }
 .feat h4 { margin: 2px 0 4px; font-size: 18px; }
 .feat p { margin: 0; color: var(--ink-dim); font-size: 14.5px; }
 
@@ -182,7 +183,9 @@ section { position: relative; z-index: 1; }
 .compare .feat-c { color: var(--ink-dim); }
 .compare .us-c { color: var(--ink); background: rgba(201,146,15,.04); }
 .compare .them-c { color: var(--ink-faint); }
-.compare .yes { color: var(--good); } .compare .no { color: var(--bad); }
+.compare .row > div { display: flex; align-items: center; gap: 9px; }
+.compare .head > div, .compare .feat-c { display: block; }
+.compare .yes { color: var(--good); display: inline-flex; } .compare .no { color: var(--bad); display: inline-flex; }
 
 /* ============ tiers ============ */
 .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }

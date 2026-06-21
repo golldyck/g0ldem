@@ -5,6 +5,7 @@ import { useReadContract } from "wagmi";
 import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import { generateSigil } from "@goldem/sdk/src/sigil";
+import { Anvil, Verified, Transfer, Lock, Sigil, Chart, Gem, ChevronDown, ArrowRight, Spark } from "./_components/Icons";
 
 const GOLD = "#c9920f";
 const SHOWCASE_HASH = "0x89536cae1949d2636fb81b751548b34bc08c0f21c37e2fe893ae3c1d41c90095";
@@ -47,10 +48,10 @@ export default function Home() {
           You own the intelligence itself — verifiable, portable, private. Not API access.
         </p>
         <div className="hero-cta">
-          <a className="btn lg" href="/train">🔨 Forge a golem</a>
+          <a className="btn lg" href="/train"><Anvil size={18} /> Forge a golem</a>
           <a className="btn ghost lg" href="#how">See how it works</a>
         </div>
-        <div className="scroll-cue">↓ scroll</div>
+        <div className="scroll-cue"><ChevronDown /> scroll</div>
       </header>
 
       {/* MARQUEE */}
@@ -58,7 +59,7 @@ export default function Home() {
         <div className="marquee-track">
           {Array.from({ length: 2 }).flatMap((_, k) =>
             ["Verifiable", "Portable", "Private", "Ownable", "On-chain", "TEE-proven"].map((w, i) => (
-              <span key={`${k}-${i}`}>{w} <b>✦</b></span>
+              <span key={`${k}-${i}`}>{w} <b><Spark size={13} /></b></span>
             ))
           )}
         </div>
@@ -84,15 +85,15 @@ export default function Home() {
         </p>
         <div className="pillars">
           <div className="pillar reveal">
-            <div className="ic">✓</div><h3>Verifiable</h3>
+            <div className="ic"><Verified /></div><h3>Verifiable</h3>
             <p>Every reply is signed inside a 0G Compute TEE — cryptographic proof it's the AI answering, not a human.</p>
           </div>
           <div className="pillar reveal">
-            <div className="ic">⇄</div><h3>Portable</h3>
+            <div className="ic"><Transfer /></div><h3>Portable</h3>
             <p>Sell a golem and its encrypted brain re-encrypts to the buyer. The mind physically moves wallets.</p>
           </div>
           <div className="pillar reveal">
-            <div className="ic">🔒</div><h3>Private</h3>
+            <div className="ic"><Lock /></div><h3>Private</h3>
             <p>The shem is AES-256-GCM encrypted on 0G Storage. Only its hash ever touches the chain.</p>
           </div>
         </div>
@@ -110,7 +111,7 @@ export default function Home() {
               <div className="w">{s.w}</div>
               <div className="t">{s.t}</div>
               <p>{s.p}</p>
-              {i < STEPS.length - 1 && <div className="arrow">→</div>}
+              {i < STEPS.length - 1 && <div className="arrow"><ArrowRight /></div>}
             </div>
           ))}
         </div>
@@ -135,9 +136,9 @@ export default function Home() {
             </div>
           </div>
           <div className="feat-list">
-            <div className="feat reveal"><div className="fi">🖼️</div><div><h4>Soul Sigil</h4><p>A deterministic avatar from <code>keccak(persona)</code> — one character, one face, reproducible and verifiable by anyone.</p></div></div>
-            <div className="feat reveal"><div className="fi">📈</div><div><h4>Agent Value Score</h4><p>Price built from proof: verified interactions, track record, revenue. No metric counts unless it's cryptographically sourced.</p></div></div>
-            <div className="feat reveal"><div className="fi">💠</div><div><h4>Dynamic tiers</h4><p>As a golem trains and earns, its card evolves — Bronze → Silver → Gold → Prismatic. Value you can see.</p></div></div>
+            <div className="feat reveal"><div className="fi"><Sigil /></div><div><h4>Soul Sigil</h4><p>A deterministic avatar from <code>keccak(persona)</code> — one character, one face, reproducible and verifiable by anyone.</p></div></div>
+            <div className="feat reveal"><div className="fi"><Chart /></div><div><h4>Agent Value Score</h4><p>Price built from proof: verified interactions, track record, revenue. No metric counts unless it's cryptographically sourced.</p></div></div>
+            <div className="feat reveal"><div className="fi"><Gem /></div><div><h4>Dynamic tiers</h4><p>As a golem trains and earns, its card evolves — Bronze → Silver → Gold → Prismatic. Value you can see.</p></div></div>
           </div>
         </div>
       </section>
@@ -153,8 +154,8 @@ export default function Home() {
           {COMPARE.map((r) => (
             <div className="row" key={r[0]}>
               <div className="feat-c">{r[0]}</div>
-              <div className="us-c"><span className="yes">●</span> {r[1]}</div>
-              <div className="them-c"><span className="no">○</span> {r[2]}</div>
+              <div className="us-c"><span className="yes"><Verified size={16} /></span> {r[1]}</div>
+              <div className="them-c"><span className="no"><CrossMini /></span> {r[2]}</div>
             </div>
           ))}
         </div>
@@ -180,7 +181,7 @@ export default function Home() {
         <div className="cta-band reveal">
           <h2 className="display">Breathe a soul into the clay.</h2>
           <p>Describe your golem in one sentence. Forge it on 0G in under a minute.</p>
-          <div className="hero-cta"><a className="btn lg" href="/train">🔨 Forge your first golem</a></div>
+          <div className="hero-cta"><a className="btn lg" href="/train"><Anvil size={18} /> Forge your first golem</a></div>
         </div>
       </section>
 
@@ -260,6 +261,14 @@ function Counter({ to }: { to: number }) {
     requestAnimationFrame(tick);
   }, [to]);
   return <>{n}</>;
+}
+
+function CrossMini() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
+      <path d="M7 7l10 10M17 7L7 17" />
+    </svg>
+  );
 }
 
 function HeroSigil() {
