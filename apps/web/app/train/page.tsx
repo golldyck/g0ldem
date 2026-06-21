@@ -8,6 +8,7 @@ import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import type { Persona } from "@goldem/sdk/src/types";
 import { Anvil, Verified, Lock, Sigil, ArrowRight } from "../_components/Icons";
+import { Logo } from "../_components/Logo";
 
 type Msg = { role: "user" | "assistant"; content: string; verified?: boolean; mock?: boolean };
 
@@ -97,7 +98,7 @@ export default function Train() {
 
       <nav className="nav">
         <div className="nav-in">
-          <a href="/" className="brand">G<span className="z">0</span>LDEM</a>
+          <Logo />
           <div className="nav-links"><a href="/">Home</a><a href="/agent/0">Golems</a></div>
         </div>
       </nav>

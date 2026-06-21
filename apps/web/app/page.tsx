@@ -6,6 +6,7 @@ import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import { generateSigil } from "@goldem/sdk/src/sigil";
 import { Anvil, Verified, Transfer, Lock, Sigil, Chart, Gem, ChevronDown, ArrowRight, Spark } from "./_components/Icons";
+import { Logo } from "./_components/Logo";
 
 const GOLD = "#c9920f";
 const SHOWCASE_HASH = "0x89536cae1949d2636fb81b751548b34bc08c0f21c37e2fe893ae3c1d41c90095";
@@ -28,7 +29,7 @@ export default function Home() {
 
       <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
         <div className="nav-in">
-          <a href="/" className="brand">G<span className="z">0</span>LDEM</a>
+          <Logo />
           <div className="nav-links">
             <a href="#how">How it works</a>
             <a href="#why">Why it wins</a>

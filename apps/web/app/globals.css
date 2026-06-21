@@ -63,6 +63,10 @@ section { position: relative; z-index: 1; }
 .nav-in { max-width: var(--maxw); margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
 .brand { font-family: var(--font-display), serif; font-weight: 800; font-size: 21px; letter-spacing: 3px; }
 .brand .z { color: var(--gold); }
+.logo-lockup { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
+.logo-lockup .logo-word { font-family: var(--font-display), serif; font-weight: 800; font-size: 21px; letter-spacing: 3px; color: var(--ink); }
+.logo-lockup .logo-word .z { color: var(--gold); }
+.logo-lockup:hover .logo-word { color: var(--gold-bright); }
 .nav-links { display: flex; gap: 26px; align-items: center; font-size: 14px; }
 .nav-links a:not(.btn) { color: var(--ink-dim); transition: color .2s; }
 .nav-links a:not(.btn):hover { color: var(--gold-bright); }

@@ -6,6 +6,7 @@ import { useReadContract } from "wagmi";
 import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import { Lock, Sigil, Verified, Transfer, Anvil } from "../../_components/Icons";
+import { Logo } from "../../_components/Logo";
 
 type Metadata = {
   name: string;
@@ -58,7 +59,7 @@ export default function AgentCard() {
 
       <nav className="nav">
         <div className="nav-in">
-          <a href="/" className="brand">G<span className="z">0</span>LDEM</a>
+          <Logo />
           <div className="nav-links"><a href="/">Home</a><a href="/train">Forge</a></div>
         </div>
       </nav>
