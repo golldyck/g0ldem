@@ -214,6 +214,15 @@ section { position: relative; z-index: 1; }
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.in { opacity: 1; transform: none; }
 
+/* ============ a11y: keyboard focus + reduced motion (ui-ux-pro-max checklist) ============ */
+a:focus-visible, button:focus-visible, .btn:focus-visible {
+  outline: 2px solid var(--gold-bright); outline-offset: 3px; border-radius: 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
 @media (max-width: 860px) {
   .stats, .steps, .tiers { grid-template-columns: repeat(2, 1fr); }
   .pillars { grid-template-columns: 1fr; }
