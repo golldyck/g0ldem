@@ -10,6 +10,7 @@
 >
 > Full product spec: [`SPEC.md`](./SPEC.md). Build plan & tournament calendar: [`PLAN.md`](./PLAN.md).
 > Brand & narrative (name decode, lore, pitch): [`BRAND.md`](./BRAND.md).
+> Product logic, utility & burn rituals (vs the biggest projects): [`PRODUCT.md`](./PRODUCT.md).
 
 **Name:** G0LDEM = **Gold** (value / top tier) + **Golem** (a forged being given a soul) +
 **0G** (the golden zero). Lore ↔ tech: *shem* = encrypted brain, *forge* = mint,
