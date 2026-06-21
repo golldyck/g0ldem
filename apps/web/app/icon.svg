@@ -1,14 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f6c95f"/><stop offset=".55" stop-color="#c9920f"/><stop offset="1" stop-color="#8a6209"/>
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#f6c95f"/><stop offset="1" stop-color="#c9920f"/>
     </linearGradient>
-    <radialGradient id="c" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f6c95f"/>
-    </radialGradient>
+    <linearGradient id="z" x1="1" y1="0" x2="-1" y2="1">
+      <stop offset="0" stop-color="#fff3cf"/><stop offset="1" stop-color="#b9830d"/>
+    </linearGradient>
+    <clipPath id="c"><rect x="31.0" y="16.8" width="12" height="13"/></clipPath>
   </defs>
   <rect width="64" height="64" rx="14" fill="#0a0805"/>
-  <path d="M46 19A20 20 0 1 0 50 38H33" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <polygon points="32,22 41,27.5 41,38.5 32,44 23,38.5 23,27.5" fill="none" stroke="#f6c95f" stroke-width="2.2" stroke-linejoin="round"/>
-  <circle cx="32" cy="33" r="3" fill="url(#c)"/>
+  <g transform="translate(0 -1)">
+    <circle cx="47.8" cy="32" r="13" fill="none" stroke="url(#z)" stroke-width="6"/>
+    <g transform="translate(0.1 7.1) scale(0.778)">
+      <path d="M47 19 A18 18 0 1 0 50 37 H34" fill="none" stroke="url(#g)" stroke-width="7.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g clip-path="url(#c)"><circle cx="47.8" cy="32" r="13" fill="none" stroke="url(#z)" stroke-width="6"/></g>
+  </g>
 </svg>
