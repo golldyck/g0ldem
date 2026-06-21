@@ -7,9 +7,7 @@ import { parseEventLogs } from "viem";
 import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import type { Persona } from "@goldem/sdk/src/types";
-import { Anvil } from "../_components/Icons";
-
-const GOLD = "#C9920F";
+import { Anvil, Verified, Lock, Sigil, ArrowRight } from "../_components/Icons";
 
 type Msg = { role: "user" | "assistant"; content: string; verified?: boolean; mock?: boolean };
 
@@ -29,12 +27,13 @@ export default function Train() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [chatInput, setChatInput] = useState("");
 
+  const step = persona ? (busy === "minting" || busy === "forging" || busy === "switching" ? 3 : 2) : 1;
+
   async function compile() {
     setError(""); setBusy("compiling"); setPersona(null); setMessages([]);
     try {
       const r = await fetch("/api/compile", {
-        method: "POST", headers: { "content-type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ prompt }),
       });
       const data = await r.json();
       if (!r.ok) throw new Error(data.error);
@@ -59,45 +58,28 @@ export default function Train() {
 
   async function forge() {
     if (!persona || !address) return;
-    setError(""); setBusy("forging");
+    setError(""); setBusy("switching");
     try {
-      // 0. make sure the wallet is on 0G Galileo, not Ethereum mainnet.
-      // Always switch — it's a no-op if already on Galileo, and robust regardless
-      // of what useChainId reports for an out-of-config network.
-      setBusy("switching");
       await switchChainAsync({ chainId: galileo.id });
-
-      // 1. server: encrypt shem → 0G Storage, build+store public card
       setBusy("forging");
       const r = await fetch("/api/forge", {
-        method: "POST", headers: { "content-type": "application/json" },
-        body: JSON.stringify({ persona }),
+        method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ persona }),
       });
       const f = await r.json();
       if (!r.ok) throw new Error(f.error);
 
-      // 2. browser wallet: mint the golem INFT
       setBusy("minting");
       const hash = await writeContractAsync({
-        chainId: galileo.id,
-        address: GOLEM_ADDRESS as `0x${string}`,
-        abi: GOLEM_ABI,
-        functionName: "mint",
+        chainId: galileo.id, address: GOLEM_ADDRESS as `0x${string}`, abi: GOLEM_ABI, functionName: "mint",
         args: [address, f.tokenURI, f.encryptedURI, f.metadataHash, f.personaHash],
       });
 
-      // Wait for the receipt, robust to 0G public-RPC propagation lag (the read node
-      // may not see the tx for a few seconds even though it's mined).
       let tokenId: string | null = null;
       try {
-        const receipt = await publicClient!.waitForTransactionReceipt({
-          hash, timeout: 120_000, pollingInterval: 2_000, retryCount: 20,
-        });
+        const receipt = await publicClient!.waitForTransactionReceipt({ hash, timeout: 120_000, pollingInterval: 2_000, retryCount: 20 });
         const logs = parseEventLogs({ abi: GOLEM_ABI, eventName: "Forged", logs: receipt.logs });
         tokenId = (logs[0] as any)?.args?.tokenId?.toString() ?? null;
-      } catch {
-        // receipt lagged — the tx is almost certainly mined; fall through to the counter
-      }
+      } catch { /* receipt lag — fall through to counter */ }
       if (tokenId === null) {
         await new Promise((r) => setTimeout(r, 4000));
         const total = (await publicClient!.readContract({
@@ -110,84 +92,117 @@ export default function Train() {
   }
 
   return (
-    <main style={{ maxWidth: 760, margin: "0 auto", padding: "0 24px 48px" }}>
-      <nav className="nav" style={{ padding: "22px 0" }}>
-        <a href="/" className="brand">G<span className="z">0</span>LDEM</a>
-        <div className="nav-links"><a href="/agent/0">Golems</a></div>
+    <>
+      <div className="bg-fx"><div className="orb o1" /><div className="orb o2" /><div className="grid-fx" /><div className="grain" /></div>
+
+      <nav className="nav">
+        <div className="nav-in">
+          <a href="/" className="brand">G<span className="z">0</span>LDEM</a>
+          <div className="nav-links"><a href="/">Home</a><a href="/agent/0">Golems</a></div>
+        </div>
       </nav>
-      <h1 className="display" style={{ fontSize: 38, margin: "20px 0 4px", letterSpacing: -0.5 }}>Forge a golem</h1>
-      <p style={{ color: "#a59a86", marginTop: 0 }}>Write the <em>shem</em> — the word that animates it.</p>
 
-      <section style={card}>
-        <h2 style={h2}>1 · Vibe-code the shem</h2>
-        <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={3} style={input} />
-        <button onClick={compile} style={btn} disabled={!!busy}>
-          {busy === "compiling" ? "Compiling on 0G Compute…" : "Compile persona"}
-        </button>
-      </section>
+      <main className="wrap" style={{ maxWidth: 720, paddingBottom: 64 }}>
+        <div className="forge-head">
+          <div className="eyebrow"><Anvil size={14} /> Forge ritual</div>
+          <h1>Forge a golem</h1>
+          <p>Write the <em>shem</em> — the word that animates the clay.</p>
+        </div>
 
-      {persona && (
-        <section style={card}>
-          <h2 style={h2}>2 · Meet {persona.name}</h2>
-          <div style={{ display: "flex", gap: 18 }}>
-            <div style={{ width: 120, flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: sigil }} />
-            <div style={{ fontSize: 14 }}>
-              <div><b style={{ color: GOLD }}>{persona.name}</b> · {persona.type}</div>
-              <div style={{ color: "#b8b09c", marginTop: 4 }}>{persona.bio}</div>
-              <div style={{ color: "#8b8576", marginTop: 8, fontSize: 12 }}>
-                {persona.adjectives?.join(" · ")}
-              </div>
-            </div>
-          </div>
+        {/* stepper */}
+        <div className="stepper" aria-label={`Step ${step} of 3`}>
+          <Stepper n={1} label="Shem" step={step} />
+          <Bar fill={step > 1} />
+          <Stepper n={2} label="Meet" step={step} />
+          <Bar fill={step > 2} />
+          <Stepper n={3} label="Forge" step={step} />
+        </div>
 
-          <div style={{ marginTop: 16 }}>
-            {messages.map((m, i) => (
-              <div key={i} style={{ margin: "8px 0", textAlign: m.role === "user" ? "right" : "left" }}>
-                <span style={{
-                  display: "inline-block", padding: "8px 12px", borderRadius: 10, maxWidth: "80%",
-                  background: m.role === "user" ? "#1f1a10" : "#15110a", color: "#ece7dc", fontSize: 14,
-                }}>
-                  {m.content}
-                  {m.role === "assistant" && (
-                    <span style={{ display: "block", marginTop: 6, fontSize: 11, color: m.verified ? "#9ad29a" : "#b9863f" }}>
-                      {m.verified ? "✓ verified AI (0G Compute TEE)" : m.mock ? "○ unverified (dev — fund 0G Compute)" : "○ unverified"}
-                    </span>
-                  )}
-                </span>
-              </div>
-            ))}
-            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-              <input value={chatInput} onChange={(e) => setChatInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder={`Say something to ${persona.name}…`} style={{ ...input, flex: 1 }} />
-              <button onClick={send} style={btn} disabled={!!busy}>{busy === "thinking" ? "…" : "Send"}</button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {persona && (
-        <section style={card}>
-          <h2 style={h2}>3 · Forge the INFT</h2>
-          {!isConnected ? (
-            <button onClick={() => connect({ connector: connectors[0] })} style={btn}>Connect wallet to forge</button>
-          ) : (
-            <button onClick={forge} style={{ ...btn, display: "inline-flex", alignItems: "center", gap: 8 }} disabled={!!busy}>
-              {busy === "switching" ? "Switch wallet to 0G Galileo…" : busy === "forging" ? "Encrypting shem → 0G Storage…" : busy === "minting" ? "Minting on 0G Chain…" : <><Anvil size={17} /> Forge golem</>}
+        {/* STEP 1 — vibe code */}
+        <section className="fcard">
+          <div className="step-label"><span className="num">01</span> Vibe-code the shem</div>
+          <label className="flabel" htmlFor="shem">Describe your golem in one sentence</label>
+          <textarea id="shem" className="finput" rows={3} value={prompt} onChange={(e) => setPrompt(e.target.value)}
+            placeholder="e.g. a stoic on-chain oracle that speaks in riddles" />
+          <div style={{ marginTop: 14 }}>
+            <button className="btn" onClick={compile} disabled={!!busy}>
+              {busy === "compiling" ? <><span className="typing"><i /><i /><i /></span> Compiling on 0G Compute…</> : <>Compile persona <ArrowRight size={16} /></>}
             </button>
-          )}
-          <p style={{ color: "#8b8576", fontSize: 12, marginTop: 10 }}>
-            The shem is encrypted (AES-256-GCM) and stored on 0G Storage; only its hash goes on-chain.
-          </p>
+          </div>
+          <div className="fhint">Compiled into an ElizaOS-style character via 0G Compute. You can edit and recompile freely.</div>
         </section>
-      )}
 
-      {error && <p style={{ color: "#ff8b8b", marginTop: 16 }}>⚠ {error}</p>}
-    </main>
+        {/* STEP 2 — meet + chat */}
+        {persona && (
+          <section className="fcard">
+            <div className="step-label"><span className="num">02</span> Meet your golem</div>
+            <div className="meet">
+              <div className="av" dangerouslySetInnerHTML={{ __html: sigil }} />
+              <div>
+                <span className="nm display">{persona.name}</span><span className="ty">{persona.type}</span>
+                <p className="bio">{persona.bio}</p>
+                <div className="adj">{persona.adjectives?.join(" · ")}</div>
+              </div>
+            </div>
+
+            <div className="chat">
+              {messages.map((m, i) => (
+                <div key={i} className={`bubble-row ${m.role}`}>
+                  <div className={`bubble ${m.role === "user" ? "user" : "golem"}`}>
+                    {m.content}
+                    {m.role === "assistant" && (
+                      <div className={`proof ${m.verified ? "ok" : "no"}`}>
+                        {m.verified ? <><Verified size={13} /> verified AI · 0G Compute TEE</> : <><Lock size={13} /> {m.mock ? "unverified · fund 0G Compute" : "unverified"}</>}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {busy === "thinking" && <div className="bubble-row"><div className="bubble golem"><span className="typing"><i /><i /><i /></span></div></div>}
+              <div className="chat-input">
+                <label htmlFor="say" style={{ position: "absolute", left: -9999 }}>Message {persona.name}</label>
+                <input id="say" className="finput" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && send()} placeholder={`Say something to ${persona.name}…`} />
+                <button className="btn" onClick={send} disabled={!!busy} style={{ padding: "0 20px" }}>Send</button>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* STEP 3 — forge */}
+        {persona && (
+          <section className="fcard">
+            <div className="step-label"><span className="num">03</span> Forge the INFT</div>
+            {!isConnected ? (
+              <button className="btn" onClick={() => connect({ connector: connectors[0] })}>Connect wallet to forge</button>
+            ) : (
+              <button className="btn lg" onClick={forge} disabled={!!busy}>
+                {busy === "switching" ? "Switch to 0G Galileo…" : busy === "forging" ? <><span className="typing"><i /><i /><i /></span> Encrypting shem → 0G Storage…</> : busy === "minting" ? <><span className="typing"><i /><i /><i /></span> Minting on 0G Chain…</> : <><Anvil size={18} /> Forge golem</>}
+              </button>
+            )}
+            <div className="forge-chips">
+              <span className="c"><Lock size={15} /> shem AES-256 encrypted</span>
+              <span className="c"><Sigil size={15} /> stored on 0G Storage</span>
+              <span className="c"><Verified size={15} /> only the hash on-chain</span>
+            </div>
+          </section>
+        )}
+
+        {error && <div className="err-box">⚠ {error}</div>}
+      </main>
+    </>
   );
 }
 
-const card: React.CSSProperties = { border: "1px solid #1f1a10", borderRadius: 14, padding: 22, marginTop: 20, background: "#0c0a06" };
-const h2: React.CSSProperties = { fontSize: 13, textTransform: "uppercase", letterSpacing: 1, color: "#8b8576", marginTop: 0 };
-const btn: React.CSSProperties = { background: GOLD, color: "#0c0a06", border: "none", borderRadius: 10, padding: "10px 16px", cursor: "pointer", fontSize: 14, fontWeight: 700 };
-const input: React.CSSProperties = { width: "100%", background: "#08060300", border: "1px solid #2a2417", borderRadius: 10, padding: "10px 12px", color: "#ece7dc", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box" };
+function Stepper({ n, label, step }: { n: number; label: string; step: number }) {
+  const state = step > n ? "done" : step === n ? "active" : "";
+  return (
+    <div className={`s ${state}`}>
+      <span className="b">{step > n ? "✓" : n}</span>
+      <span>{label}</span>
+    </div>
+  );
+}
+function Bar({ fill }: { fill: boolean }) {
+  return <span className={`bar ${fill ? "fill" : ""}`} />;
+}
