@@ -5,6 +5,7 @@
 itself — verifiable, portable, private. Not API access.
 
 **Repo:** https://github.com/golldyck/g0ldem
+**Live:** https://g0ldem-production.up.railway.app
 **Network:** 0G Galileo Testnet (chainId 16602)
 **Contract (GolemINFT):** 0x48E5695b472a9E4286794eb458D3B1B47EF53508
 

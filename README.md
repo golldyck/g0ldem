@@ -6,6 +6,8 @@
 (AI-as-a-Service without giving up ownership).
 
 > **True AI Ownership vs API Access.** Built for the 0G **Zero Cup** vibe-coding tournament.
+> **Live demo:** https://g0ldem-production.up.railway.app
+>
 > Full product spec: [`SPEC.md`](./SPEC.md). Build plan & tournament calendar: [`PLAN.md`](./PLAN.md).
 > Brand & narrative (name decode, lore, pitch): [`BRAND.md`](./BRAND.md).
 
