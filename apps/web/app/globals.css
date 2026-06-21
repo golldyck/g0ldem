@@ -108,6 +108,20 @@ section { position: relative; z-index: 1; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse { 0%,100%{opacity:.6;} 50%{opacity:1;} }
 
+/* hero logo — animated G0 monogram */
+.herologo { position: relative; width: 300px; height: 300px; margin: 0 auto; }
+.herologo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hl-orbit { animation: spin 32s linear infinite; transform-origin: 50% 50%; }
+.hl-orbit2 { animation: spin 22s linear infinite reverse; transform-origin: 50% 50%; }
+.hl-g { stroke-dasharray: 360; stroke-dashoffset: 360; animation: hl-draw 2.2s cubic-bezier(.5,0,.2,1) .15s forwards; }
+.hl-hex { transform-origin: 50% 51%; animation: hl-hex 4s ease-in-out 2s infinite; opacity: 0; }
+.hl-core { transform-origin: 50% 51%; animation: hl-core 3s ease-in-out 2.2s infinite; opacity: 0; }
+.hl-glow { animation: hl-breathe 5s ease-in-out infinite; transform-origin: 50% 50%; }
+@keyframes hl-draw { to { stroke-dashoffset: 0; } }
+@keyframes hl-hex { 0% { opacity: 0; } 12%,100% { opacity: .9; } 50% { opacity: .55; transform: scale(.97); } }
+@keyframes hl-core { 0% { opacity: 0; } 14% { opacity: 1; } 50% { opacity: .6; transform: scale(.82); } 100% { opacity: 1; } }
+@keyframes hl-breathe { 0%,100% { opacity: .45; transform: scale(1); } 50% { opacity: .8; transform: scale(1.06); } }
+
 /* ============ marquee ============ */
 .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
   padding: 18px 0; margin-top: 24px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);

@@ -6,7 +6,7 @@ import { galileo } from "@/lib/chain";
 import { GOLEM_ADDRESS, GOLEM_ABI } from "@/lib/contract";
 import { generateSigil } from "@goldem/sdk/src/sigil";
 import { Anvil, Verified, Transfer, Lock, Sigil, Chart, Gem, ChevronDown, ArrowRight, Spark } from "./_components/Icons";
-import { Logo } from "./_components/Logo";
+import { Logo, HeroLogo } from "./_components/Logo";
 
 const GOLD = "#c9920f";
 const SHOWCASE_HASH = "0x89536cae1949d2636fb81b751548b34bc08c0f21c37e2fe893ae3c1d41c90095";
@@ -41,7 +41,7 @@ export default function Home() {
 
       {/* HERO */}
       <header className="hero wrap">
-        <div className="halo"><HeroSigil /></div>
+        <HeroLogo />
         <div className="eyebrow" style={{ marginTop: 10 }}><span className="pip" /> 0G Zero Cup · Intelligent NFTs</div>
         <h1>Forge a soul.<br /><span className="grad">Own the mind.</span></h1>
         <p className="lead">
@@ -272,26 +272,3 @@ function CrossMini() {
   );
 }
 
-function HeroSigil() {
-  const G = "#c9920f", GB = "#f6c95f";
-  return (
-    <svg viewBox="0 0 200 200" aria-hidden>
-      <defs>
-        <radialGradient id="hcore" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stopColor={GB} /><stop offset="1" stopColor={G} /></radialGradient>
-        <filter id="hglow"><feGaussianBlur stdDeviation="2.4" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-      </defs>
-      <g filter="url(#hglow)">
-        <circle className="spin-slow" cx="100" cy="100" r="88" fill="none" stroke={G} strokeWidth="1" opacity="0.45" strokeDasharray="2 8" />
-        <g className="spin-rev">
-          <circle cx="100" cy="100" r="64" fill="none" stroke={G} strokeWidth="1" opacity="0.6" strokeDasharray="10 6" />
-          {Array.from({ length: 7 }).map((_, i) => {
-            const a = (i / 7) * Math.PI * 2 - Math.PI / 2;
-            return <circle key={i} cx={100 + Math.cos(a) * 64} cy={100 + Math.sin(a) * 64} r="3.4" fill={GB} />;
-          })}
-        </g>
-        <polygon points="100,60 134,80 134,120 100,140 66,120 66,80" fill="none" stroke={GB} strokeWidth="1.6" opacity="0.9" />
-        <circle className="core" cx="100" cy="100" r="9" fill="url(#hcore)" />
-      </g>
-    </svg>
-  );
-}
