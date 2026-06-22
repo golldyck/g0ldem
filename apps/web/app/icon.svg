@@ -1,19 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#f6c95f"/><stop offset="1" stop-color="#c9920f"/>
+    <linearGradient id="m" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7D6"/><stop offset=".28" stop-color="#F6C84C"/>
+      <stop offset=".55" stop-color="#A9690C"/><stop offset=".78" stop-color="#F3C24A"/><stop offset="1" stop-color="#FFF1C0"/>
     </linearGradient>
-    <linearGradient id="z" x1="1" y1="0" x2="-1" y2="1">
-      <stop offset="0" stop-color="#fff3cf"/><stop offset="1" stop-color="#b9830d"/>
-    </linearGradient>
-    <clipPath id="c"><rect x="31.0" y="16.8" width="12" height="13"/></clipPath>
+    <clipPath id="c"><circle cx="150" cy="149" r="27"/></clipPath>
   </defs>
   <rect width="64" height="64" rx="14" fill="#0a0805"/>
-  <g transform="translate(0 -1)">
-    <circle cx="47.8" cy="32" r="13" fill="none" stroke="url(#z)" stroke-width="6"/>
-    <g transform="translate(0.1 7.1) scale(0.778)">
-      <path d="M47 19 A18 18 0 1 0 50 37 H34" fill="none" stroke="url(#g)" stroke-width="7.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <svg x="6" y="7" width="52" height="50" viewBox="25 8 250 190" preserveAspectRatio="xMidYMid meet">
+    <g fill="none" stroke="url(#m)" stroke-width="23" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="185" cy="103" r="58"/>
+      <path d="M164 72 A58 58 0 1 0 164 134"/>
+      <path d="M164 134 L164 111 L129 111"/>
+      <g clip-path="url(#c)"><circle cx="185" cy="103" r="58"/></g>
     </g>
-    <g clip-path="url(#c)"><circle cx="47.8" cy="32" r="13" fill="none" stroke="url(#z)" stroke-width="6"/></g>
-  </g>
+  </svg>
 </svg>
