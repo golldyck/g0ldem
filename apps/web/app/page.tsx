@@ -14,6 +14,7 @@ const SHOWCASE_HASH = "0x89536cae1949d2636fb81b751548b34bc08c0f21c37e2fe893ae3c1
 export default function Home() {
   useReveal();
   const scrolled = useNavScroll();
+  const fxRef = useFx();
   const { data: minted } = useReadContract({
     address: GOLEM_ADDRESS || undefined, abi: GOLEM_ABI, functionName: "totalMinted",
     chainId: galileo.id, query: { enabled: GOLEM_ADDRESS !== "" },
@@ -24,6 +25,7 @@ export default function Home() {
     <>
       <div className="bg-fx">
         <div className="orb o1" /><div className="orb o2" /><div className="orb o3" />
+        <canvas className="fx-canvas" ref={fxRef} aria-hidden />
         <div className="grid-fx" /><div className="grain" />
       </div>
 
@@ -42,12 +44,11 @@ export default function Home() {
       {/* HERO */}
       <header className="hero wrap">
         <HeroLogo />
-        <div className="eyebrow" style={{ marginTop: 10 }}><span className="pip" /> 0G Zero Cup · Intelligent NFTs</div>
-        <h1>Forge a soul.<br /><span className="grad">Own the mind.</span></h1>
-        <p className="lead">
-          Vibe-code an AI golem, breathe in its <em>shem</em>, and forge it as an INFT on 0G.
-          You own the intelligence itself — verifiable, portable, private. Not API access.
-        </p>
+        <div className="eyebrow" style={{ marginTop: 10 }}><span className="pip" /> Powered by 0G · Home of Infinite AI</div>
+        <h1 className="wordmark">G0LDEM</h1>
+        <div className="tag">Forge <b className="grad">golden minds</b> on <b className="grad">0G</b></div>
+        <p className="hook">In the old myth, a golem woke when a sacred word was sealed in its chest. Yours wakes when its mind is sealed on <b className="grad">0G</b> — and this time, the key is <b className="grad">yours.</b></p>
+        <p className="lead">G0LDEM turns AI agents into encrypted, verifiable, tradable assets — minted as INFTs on the 0G Chain. True AI ownership, not API access.</p>
         <div className="hero-cta">
           <a className="btn lg" href="/train"><Anvil size={18} /> Forge a golem</a>
           <a className="btn ghost lg" href="#how">See how it works</a>
@@ -235,6 +236,37 @@ function useReveal() {
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
+}
+
+type FxP = { x: number; y: number; r: number; vx: number; vy: number; a: number; gold: boolean; tw: number };
+function useFx() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const cv = ref.current; if (!cv) return;
+    const cx = cv.getContext("2d"); if (!cx) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let W = 0, H = 0, parts: FxP[] = [], raf = 0;
+    const size = () => { W = window.innerWidth; H = window.innerHeight; cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + "px"; cv.style.height = H + "px"; cx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    const init = () => { parts = []; const n = Math.min(58, Math.floor((W * H) / 32000)); for (let i = 0; i < n; i++) parts.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + 0.4, vx: (Math.random() - 0.5) * 0.09, vy: (Math.random() - 0.5) * 0.09, a: Math.random() * 0.4 + 0.12, gold: Math.random() < 0.7, tw: Math.random() * 6.28 }); };
+    const frame = () => {
+      cx.clearRect(0, 0, W, H);
+      for (const p of parts) {
+        p.x += p.vx; p.y += p.vy; p.tw += 0.015;
+        if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5;
+        const al = p.a * (0.55 + 0.45 * Math.sin(p.tw));
+        const col = p.gold ? `rgba(246,201,95,${al})` : `rgba(255,247,214,${al})`;
+        cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283); cx.fillStyle = col; cx.shadowBlur = 5; cx.shadowColor = col; cx.fill();
+      }
+      if (!reduce) raf = requestAnimationFrame(frame);
+    };
+    size(); init(); frame();
+    let rt: ReturnType<typeof setTimeout>;
+    const onR = () => { clearTimeout(rt); rt = setTimeout(() => { size(); init(); if (reduce) frame(); }, 200); };
+    window.addEventListener("resize", onR, { passive: true });
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onR); };
+  }, []);
+  return ref;
 }
 
 function useNavScroll() {

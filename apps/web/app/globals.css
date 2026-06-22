@@ -34,6 +34,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ============ ambient background (orbs + grid + grain) ============ */
 .bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.fx-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .5; }
 .orb.o1 { width: 620px; height: 620px; top: -200px; left: 50%; transform: translateX(-50%);
   background: radial-gradient(circle, rgba(201,146,15,.42), transparent 65%); animation: drift1 26s ease-in-out infinite; }
@@ -94,7 +95,18 @@ section { position: relative; z-index: 1; }
   font-size: clamp(44px, 8vw, 92px); margin: 26px 0 0; }
 .grad { background: linear-gradient(180deg, #fff 0%, var(--gold-bright) 52%, var(--gold) 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.hero .lead { color: var(--ink-dim); font-size: clamp(16px, 2.2vw, 21px); max-width: 640px; margin: 24px auto 0; }
+.hero .wordmark { font-family: var(--font-display), serif; font-weight: 800; letter-spacing: .02em; line-height: .98;
+  font-size: clamp(54px, 11vw, 128px); margin: 20px 0 0;
+  background: linear-gradient(180deg, #fff7e2, #f6c95f 46%, var(--gold) 100%);
+  background-size: 100% 200%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+  animation: shimmer 6s ease-in-out infinite; }
+@keyframes shimmer { 0%,100% { background-position: 50% 0; } 50% { background-position: 50% 100%; } }
+.hero .tag { font-size: clamp(19px, 2.6vw, 32px); margin-top: 14px; font-weight: 300; color: var(--ink); letter-spacing: .02em; }
+.hero .tag b { font-weight: 600; }
+.hero .hook { max-width: 660px; margin: 22px auto 0; font-family: var(--font-display), serif; font-style: italic; font-weight: 500;
+  font-size: clamp(16px, 1.9vw, 22px); line-height: 1.5; color: #d8ccae; }
+.hero .hook b { font-style: normal; font-weight: 600; }
+.hero .lead { color: var(--ink-dim); font-size: clamp(16px, 2.2vw, 21px); max-width: 640px; margin: 22px auto 0; }
 .hero-cta { display: flex; gap: 14px; justify-content: center; margin-top: 34px; flex-wrap: wrap; }
 .scroll-cue { margin-top: 50px; color: var(--ink-faint); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; animation: floaty 2.6s ease-in-out infinite; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
 @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(7px);} }
