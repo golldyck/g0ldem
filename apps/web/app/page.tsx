@@ -46,8 +46,8 @@ export default function Home() {
         <HeroLogo />
         <div className="eyebrow" style={{ marginTop: 10 }}><span className="pip" /> Powered by 0G · Home of Infinite AI</div>
         <h1 className="wordmark">G0LDEM</h1>
-        <div className="tag">Forge <b className="grad">golden minds</b> on <b className="grad">0G</b></div>
-        <p className="hook">In the old myth, a golem woke when a sacred word was sealed in its chest. Yours wakes when its mind is sealed on <b className="grad">0G</b> — and this time, the key is <b className="grad">yours.</b></p>
+        <div className="tag">Forge <b className="grad">golden minds</b> on <b className="vio">0G</b></div>
+        <p className="hook">In the old myth, a golem woke when a sacred word was sealed in its chest. Yours wakes when its mind is sealed on <b className="vio">0G</b> — and this time, the key is <b className="grad">yours.</b></p>
         <p className="lead">G0LDEM turns AI agents into encrypted, verifiable, tradable assets — minted as INFTs on the 0G Chain. True AI ownership, not API access.</p>
         <div className="hero-cta">
           <a className="btn lg" href="/train"><Anvil size={18} /> Forge a golem</a>
@@ -255,7 +255,7 @@ function useFx() {
         p.x += p.vx; p.y += p.vy; p.tw += 0.015;
         if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5; if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5;
         const al = p.a * (0.55 + 0.45 * Math.sin(p.tw));
-        const col = p.gold ? `rgba(246,201,95,${al})` : `rgba(255,247,214,${al})`;
+        const col = p.gold ? `rgba(246,201,95,${al})` : `rgba(168,130,255,${al})`;
         cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283); cx.fillStyle = col; cx.shadowBlur = 5; cx.shadowColor = col; cx.fill();
       }
       if (!reduce) raf = requestAnimationFrame(frame);
